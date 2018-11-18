@@ -7,7 +7,6 @@ $(function(){
   var html= '';
   var urlArray=[url, url2];
   var i='';
-console.log('hi');
   // for(i=0; i<urlArray.length; i++){
 
     $.ajax({
@@ -16,17 +15,34 @@ console.log('hi');
       dataType: 'json',
       async: true,
       data: data,
-      error: function(url, html){ console.log('Your ajax call failed. Sorry fam.'); console.log(data)},
+      error: function(url, html){ console.log('Your ajax call failed.'); console.log(data)},
       success:function(data){
         console.log('it worked!');
         var lat=data.iss_position.latitude;
         var lon=data.iss_position.longitude;
-        html += 'The space station is at ' + data.iss_position.latitude;
+        html += 'The space station is at ' + data.iss_position.latitude + ' ' + data.iss_position.longitude ;
         $('#results').html(html);
 
-      } // success function
 
-    }); // ajax
+        $.ajax({
+          type:'GET',
+          url: url2,
+          dataType: 'json',
+          async: true,
+          data: data,
+          error: function(url, html){ console.log('Your second ajax call failed.'); console.log(data)},
+          success:function(data){
+            console.log('TA DA!');
+
+            $('#results').html(html);
+
+          } // success function 2
+
+      }); // ajax lil
+
+      } // success function 1
+
+  }); // ajax big
 
   //  setTimeout(moveISS, 5000);
 //  }; // close forloop
