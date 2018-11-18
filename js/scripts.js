@@ -2,7 +2,7 @@ $(function(){
   console.log('scripts loaded!');
   //var myKey = config.MY_KEY;
   var url= 'http://api.open-notify.org/iss-now.json' ;
-  var url2= 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=-34.44076&lon=-58.70521';
+  var url2= 'https://nominatim.openstreetmap.org/reverse';
   var data= [];
   var html= '';
   var urlArray=[url, url2];
@@ -18,8 +18,9 @@ $(function(){
       error: function(url, html){ console.log('Your ajax call failed.'); console.log(data)},
       success:function(data){
         console.log('it worked!');
-        var lat=data.iss_position.latitude;
-        var lon=data.iss_position.longitude;
+        var latty = data.iss_position.latitude;
+        var longy = data.iss_position.longitude;
+
         html += 'The space station is at ' + data.iss_position.latitude + ' ' + data.iss_position.longitude ;
         $('#results').html(html);
 
@@ -33,6 +34,10 @@ $(function(){
           error: function(url, html){ console.log('Your second ajax call failed.'); console.log(data)},
           success:function(data){
             console.log('TA DA!');
+            lat = latty;
+            lon = longy;
+            html += 'The space station is at ' + lat + ' ' + data.address.country;
+
 
             $('#results').html(html);
 
