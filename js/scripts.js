@@ -1,47 +1,36 @@
 $(function(){
   console.log('scripts loaded');
   var myKey = config.MY_KEY;
-
-  var url= 'https://newsapi.org/v2/everything?q=MIT+graduate&from=2018-10-14&sortBy=publishedAt&apiKey=' + myKey;
+  var url= 'http://api.open-notify.org/iss-now.json' ;
   //you put your API key at the end of the thing which means you have to delete the one that is there
   //delete the topic and put your own uses a plus as spaces
-  var url2= 'https://newsapi.org/v2/everything?q=horse+care&from=2018-10-14&sortBy=publishedAt&apiKey=' + myKey;
+  var url2= 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=-34.44076&lon=-58.70521';
   var data= [];
   var html= '';
-  var articles= [];
   var urlArray=[url, url2];
   var i='';
-
-  for(i=0; i<urlArray.length; i++){
+console.log(data.iss_position.latitude);
+  // for(i=0; i<urlArray.length; i++){
 
     $.ajax({
       type:'GET',
-      url: urlArray[i],
+      url: url,
       dataType: 'json',
       async: true,
       data: data,
+      error: function(url, html){ console.log('Your ajax call failed. Sorry fam.'); console.log(data)},
       success:function(data){
-        console.log(data.articles);
-        articles=data.articles;
-
-        articles.forEach(function(article){
-          console.log(article.title);
-          html += '<div class="latest-news flex">';
-            html += '<img class="thumbnail" src="' + article.urlToImage + '">';
-            html += '<div class="text">';
-            html += '<a href="' + article.url + '" target="blank">';
-            html += '<h2 class="headline">' + article.title + '</h2>';
-            html += '<h4 class="byline"> by ' + article.author + ', <em>' + article.source.name + '</em></h4>';
-            html += '</a></div>';
-          html += '</div>';
-
-        }); // foreach
+        console.log(data.iss_position.latitude);
+        var lat=data.iss_position.latitude;
+        var lon=data.iss_position.longitude;
+        html += 'The space station is at ' + data.iss_position.latitude;
         $('#results').html(html);
 
       } // success function
 
     }); // ajax
 
-  } //close loop
+  //  setTimeout(moveISS, 5000);
+//  }; // close forloop
 
-}); //wraper
+}); // close wrapper
